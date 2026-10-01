@@ -17,7 +17,7 @@
 
 **딥보이스 범죄 대응을 위한 AI 탐지 모델 경진대회**에서 수행한 모델 개선과 검증 기록입니다. 파일 전체의 위조 여부뿐 아니라 **음성·음악의 존재와 진위**, 총 5개의 확률을 예측합니다.
 
-이 저장소는 **결과 아카이브와 연구 코드 일부**입니다. 데이터셋·모델 가중치·제출 ZIP은 포함하지 않으며, 공개 코드만으로 전체 v7 추론을 재현할 수는 없습니다.
+이 저장소는 **결과 아카이브와 연구 코드 일부**입니다. 데이터셋·제출 ZIP은 포함하지 않습니다. 재배포 조건을 확인한 **PANNs 가중치 1개만 별도 Releases에 공개**하며, 나머지 가중치는 보류합니다. 공개 코드와 이 파일만으로 전체 v7 추론을 재현할 수는 없습니다.
 
 | 가장 높은 기록 | 최초 개선본 대비 | 존재 탐지 CPS | 표시 소요 시간 |
 |:---:|:---:|:---:|:---:|
@@ -113,9 +113,23 @@ v7은 **외부 사전학습 모델 3개 + 직접 학습한 음악 CNN 3개**를 
 
 ¹ 보관 파일의 크기이며 1 MB = 1,000,000 bytes입니다. 모델의 GPU 메모리 사용량과는 다릅니다. ² Forensics 실행 경로는 317,257,863개 파라미터이며 저장된 미사용 projection 등은 제외합니다.
 
-실제 보관 ZIP의 활성 가중치 6개를 재해시해 패키지 기록과 대조했습니다. [원 배포처·revision·파일별 SHA-256](docs/WEIGHTS.md) · [기계 판독용 목록](results/model_inventory.json). **가중치 파일 자체는 배포하지 않습니다.** 직접 학습 가중치도 학습원천의 이용 조건과 별개로 무제한 재배포를 주장하지 않습니다.
+실제 보관 ZIP의 활성 가중치 6개를 재해시해 패키지 기록과 대조했습니다. [원 배포처·revision·파일별 SHA-256](docs/WEIGHTS.md) · [기계 판독용 목록](results/model_inventory.json).
+
+### 가중치 다운로드 · 공개 범위
+
+**[PANNs 가중치 릴리스 · 327.43 MB](https://github.com/jamessung644/deepvoice-dacon-2026/releases/tag/v7-panns-weights-20261001)**에는 원본 checkpoint와 저자/출처 고지, CC-BY-4.0 전문, SHA-256 목록을 함께 제공합니다. 직접 학습한 모델이 아니라 v7의 음성·음악 존재 탐지에 사용한 외부 모델입니다.
+
+```bash
+python3 tools/download_weights.py panns
+```
+
+Python 표준 라이브러리만 사용하며 `artifacts/weights/`에 저장합니다. 파일 크기와 SHA-256을 검증하고 기존 파일이 다르면 덮어쓰지 않습니다. 전체 v7 가중치 다운로드 명령이 아닙니다.
+
+**HTDemucs는 코드 MIT를 가중치 허가로 볼 수 없어 보류**, Forensics는 기반 WavLM 권리 표기 불일치로 보류했습니다. 자체 음악 CNN 3개도 혼합 학습원천의 권리 적용 범위가 미확정입니다. NC 자체가 공개 공유 금지라는 뜻은 아닙니다. [모델별 공개조건 검토와 보류 근거](docs/WEIGHT_LICENSE_REVIEW.md)를 확인하세요.
 
 ## 학습 데이터셋
+
+다시 자료를 받을 때는 **[데이터셋 다운로드 가이드](docs/DOWNLOAD_DATASETS.md)**를 사용하세요. 공식 주소·고정 revision·checksum·용량·다운로드 명령·이용 조건과 v7 재학습에 추가로 필요한 자료를 구분했습니다. 원음/가공 오디오를 이 저장소에서 재배포하지 않습니다.
 
 ### v7 원음 음악 CNN · sqrt / equal 공통 학습풀
 
@@ -213,12 +227,13 @@ docs/                       v7 구조·내부 실험·근거 안내
 results/                    정리된 JSON / CSV
 scripts/                    실제 연구 코드 일부
 tests/                      공개 모듈의 회귀 테스트
-tools/                      그래프 재생성 도구
+tools/                      가중치 다운로드·공개 검사·그래프 재생성
+licenses/                   공개 PANNs 귀속 고지와 CC-BY-4.0 전문
 THIRD_PARTY_NOTICES.md       출처·권리·재배포 제외 범위
 ```
 
 ## 출처와 공개 범위
 
-모델·도구의 원 출처는 [PANNs](https://github.com/qiuqiangkong/audioset_tagging_cnn), [HTDemucs](https://github.com/facebookresearch/demucs), [WavLM](https://github.com/microsoft/unilm/tree/master/wavlm), [Forensics](https://huggingface.co/eliya/forensics_0.3B_base_deepfake_classifier), [MERT](https://github.com/yizhilll/MERT)입니다. 전체 제출 모델, 제3자 가중치·학습 오디오·대회 평가 데이터는 이 저장소에서 배포하지 않습니다.
+모델·도구의 원 출처는 [PANNs](https://github.com/qiuqiangkong/audioset_tagging_cnn), [HTDemucs](https://github.com/facebookresearch/demucs), [WavLM](https://github.com/microsoft/unilm/tree/master/wavlm), [Forensics](https://huggingface.co/eliya/forensics_0.3B_base_deepfake_classifier), [MERT](https://github.com/yizhilll/MERT)입니다. PANNs만 원본 CC-BY-4.0 고지를 갖춰 별도 Releases에 제공합니다. 전체 제출 모델, 나머지 가중치·학습 오디오·대회 평가 데이터는 배포하지 않습니다.
 
 **데이터나 모델의 이용 조건은 각각의 원 배포처에서 별도로 확인해야 합니다.** 이 저장소는 모든 자산에 일괄 MIT 라이선스를 부여하지 않으며, 저장소가 공개라는 이유만으로 모든 파일의 재사용 허가가 부여되는 것도 아닙니다.

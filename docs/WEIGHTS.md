@@ -1,6 +1,6 @@
 # v7 가중치 식별 정보
 
-2026-10-01에 보관 v7 ZIP의 활성 가중치 6개를 스트리밍 재해시하고, 원래 패키지 기록과 내부 SHA256SUMS를 대조했다. 가중치를 공개 저장소에 업로드하거나 모델을 새로 실행·학습하지 않았다.
+2026-10-01에 보관 v7 ZIP의 활성 가중치 6개를 스트리밍 재해시하고, 원래 패키지 기록과 내부 SHA256SUMS를 대조했다. 후속 공개조건 확인으로 **PANNs 1개만 별도 Releases에 원본 그대로 배포**한다. 나머지 5개는 공개 보류다. 모델을 새로 실행·학습하지 않았다.
 
 ## 실제 사용 가중치
 
@@ -35,6 +35,16 @@ v6의 가중치를 유지하고 MUSIC 결합을 `0.5 stem + 0.3 sqrt + 0.2 equal
 
 ## 권리와 공개 경계
 
-보관 고지상 Forensics는 CC-BY-NC-4.0, PANNs checkpoint는 CC-BY-4.0, HTDemucs는 MIT 고지를 갖는다. Forensics의 WavLM 원래 MIT 고지와 배포 페이지의 일부 SA 링크 불일치는 해결된 것으로 취급하지 않는다. 자체 CNN도 FakeMusicCaps/SONICS의 NC, Echoes의 SA 및 원천별 이용 조건을 따로 검토해야 하며, 직접 학습했다고 무제한 재배포 권한이 생겼다고 주장하지 않는다.
+Forensics는 자체 CC-BY-NC-4.0 고지가 있으나 기반 WavLM MIT/SA 표기 불일치가 남는다. PANNs **checkpoint**는 원 배포 레코드의 CC-BY-4.0을 확인했다. **HTDemucs의 보관 MIT는 코드 고지다. 제작자는 가중치가 MIT 적용 대상이 아니라고 밝혔으므로 가중치 MIT로 확대하지 않는다.** 자체 CNN의 혼합 NC/SA와 원천별 조건은 별도 검토가 필요하며, 직접 학습했다고 무제한 재배포 권한이 생겼다고 주장하지 않는다.
 
-원 모델 링크는 취득 위치 안내이며 이 저장소가 가중치 이용 허가를 새로 부여하는 것이 아니다. 이 저장소에는 **파일명·크기·SHA-256·출처·학습 구분만 공개**한다. 전체 공개 정책은 [THIRD_PARTY_NOTICES](../THIRD_PARTY_NOTICES.md)를 참고한다.
+원 모델 링크는 취득 위치 안내이며 이 저장소가 보류 가중치에 새로운 허가를 부여하는 것이 아니다. [조건별 판단·원문 근거](WEIGHT_LICENSE_REVIEW.md), [PANNs 귀속 고지](../licenses/PANNs_NOTICE.md), [전체 공개 정책](../THIRD_PARTY_NOTICES.md)을 참고한다.
+
+## 재다운로드
+
+[PANNs 릴리스](https://github.com/jamessung644/deepvoice-dacon-2026/releases/tag/v7-panns-weights-20261001)에서 원본 파일을 직접 받거나, clone한 저장소 루트에서 다음을 실행한다.
+
+```bash
+python3 tools/download_weights.py panns --output-dir artifacts/weights
+```
+
+크기 327,428,481 bytes 및 위 SHA-256을 통과해야 완료 파일로 저장한다. 이미 같은 파일이 있으면 재사용하고, 다르면 보존한 채 중단한다. 다운로드 실패/손상 시 도구가 만든 임시 파일만 정리한다. 보류 가중치는 이 도구로 받을 수 없다. 체크포인트는 임의 Python 객체를 포함할 수 있으므로 신뢰하지 않는 `.pth/.pt`를 실행하지 않는다. 해시 일치는 원본 식별이며 모든 실행 안전성을 증명하지 않는다.

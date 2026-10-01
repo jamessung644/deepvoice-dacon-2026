@@ -1,0 +1,199 @@
+{
+  "schema": "deepvoice-dataset-download-catalog-v1",
+  "checked_on": "2026-10-01",
+  "scope": "Official source downloads and identity metadata. No audio is distributed, and this catalog is not a complete v7 training recipe.",
+  "verification_scope": "Official pages, Zenodo record APIs, pinned Hugging Face repository trees and small dataset cards were checked. All 13 catalog file URLs returned HTTP 200 to HEAD requests with matching Content-Length on 2026-10-01. The small SONICS metadata JSON was rehashed; the large archives were not downloaded again for this publication.",
+  "datasets": [
+    {
+      "id": "fma",
+      "stage": "v7_music",
+      "source_page": "https://github.com/mdeff/fma",
+      "revision": "FMA 2017 release; provenance README commit 607364e7d8263f890d23c838802f29637600611f",
+      "license_summary": "Metadata CC-BY-4.0; audio licenses chosen per track by its artist. The project excludes ND tracks before derived processing.",
+      "files": [
+        {
+          "path": "data/raw/fma/fma_metadata.zip",
+          "url": "https://os.unil.cloud.switch.ch/fma/fma_metadata.zip",
+          "bytes": 358412441,
+          "checksum": "sha1:f0df49ffe5f2a6008d7dc83c6915b31835dfe733",
+          "checksum_source": "publisher README"
+        },
+        {
+          "path": "data/raw/fma/fma_small.zip",
+          "url": "https://os.unil.cloud.switch.ch/fma/fma_small.zip",
+          "bytes": 7679594875,
+          "checksum": "sha1:ade154f733639d52e35e32f5593efe5be76c6d70",
+          "checksum_source": "publisher README",
+          "project_observed_sha256": "f923bbef327820456d50965c3c320c3c7b6dab8456449429fd78f7ec96a5d02c"
+        }
+      ]
+    },
+    {
+      "id": "maestro",
+      "stage": "v7_music",
+      "source_page": "https://magenta.tensorflow.org/datasets/maestro",
+      "revision": "3.0.0",
+      "license_summary": "CC-BY-NC-SA-4.0",
+      "metadata_url": "https://storage.googleapis.com/magentadata/datasets/maestro/v3.0.0/maestro-v3.0.0.csv",
+      "files": [
+        {
+          "path": "data/raw/maestro/maestro-v3.0.0.zip",
+          "url": "https://storage.googleapis.com/magentadata/datasets/maestro/v3.0.0/maestro-v3.0.0.zip",
+          "bytes": 108445099632,
+          "checksum": "sha256:6680fea5be2339ea15091a249fbd70e49551246ddbd5ca50f1b2352c08c95291",
+          "checksum_source": "publisher dataset page",
+          "note": "The project acquired selected original ZIP members, not the complete archive. This full-archive hash is publisher supplied; no complete-archive SHA-256 verification is claimed for that selected-member acquisition."
+        }
+      ]
+    },
+    {
+      "id": "fakemusiccaps",
+      "stage": "v7_music",
+      "source_page": "https://zenodo.org/records/15063698",
+      "revision": "Zenodo record 15063698",
+      "license_summary": "CC-BY-NC-4.0",
+      "files": [
+        {
+          "path": "data/raw/fakemusiccaps/FakeMusicCaps.zip",
+          "url": "https://zenodo.org/api/records/15063698/files/FakeMusicCaps.zip/content",
+          "bytes": 12889873014,
+          "checksum": "md5:db418dc95ab7dc378a55f29d6021fd66",
+          "checksum_source": "publisher Zenodo record API"
+        }
+      ]
+    },
+    {
+      "id": "echoes",
+      "stage": "v7_music",
+      "source_page": "https://huggingface.co/datasets/Octavian97/Echoes",
+      "revision": "14b0c76c6a691c42fadfab9fb6a4eb1ee8c628a2",
+      "license_summary": "CC-BY-SA-4.0",
+      "files": [
+        {
+          "path": "data/raw/echoes/Echoes.zip",
+          "url": "https://huggingface.co/datasets/Octavian97/Echoes/resolve/14b0c76c6a691c42fadfab9fb6a4eb1ee8c628a2/Echoes.zip?download=true",
+          "bytes": 8598345242,
+          "checksum": "sha256:8746dcb367f2f547399201d442ffab9121c36415815947ed4784e29b60e25b59",
+          "checksum_source": "publisher pinned Hugging Face LFS object SHA-256"
+        }
+      ]
+    },
+    {
+      "id": "sonics",
+      "stage": "v7_music",
+      "source_page": "https://huggingface.co/datasets/awsaf49/sonics",
+      "revision": "3788dca9f9f11ad92e9097ef4b58eee247661e7f",
+      "license_summary": "Dataset CC-BY-NC-4.0; upstream code MIT is a different license.",
+      "files": [
+        {
+          "path": "data/raw/sonics/metadata.json",
+          "url": "https://huggingface.co/datasets/awsaf49/sonics/resolve/3788dca9f9f11ad92e9097ef4b58eee247661e7f/metadata.json?download=true",
+          "bytes": 3239343,
+          "checksum": "sha256:4924f1582714a9f05cef63aec8d715b1947ee89cd8f9f487fbeb6936889e0fde",
+          "checksum_source": "project recorded hash of pinned metadata; not a publisher checksum"
+        },
+        {
+          "path": "data/raw/sonics/fake_songs.csv",
+          "url": "https://huggingface.co/datasets/awsaf49/sonics/resolve/3788dca9f9f11ad92e9097ef4b58eee247661e7f/fake_songs.csv?download=true",
+          "bytes": 132524507,
+          "checksum": "sha256:fb2dde96c8c57975f8840e4a7d01422b542b755543ffde85194a590963d1bba9",
+          "checksum_source": "publisher pinned Hugging Face LFS object SHA-256"
+        },
+        {
+          "path": "data/raw/sonics/part_10.zip",
+          "url": "https://huggingface.co/datasets/awsaf49/sonics/resolve/3788dca9f9f11ad92e9097ef4b58eee247661e7f/fake_songs/part_10.zip?download=true",
+          "bytes": 2702903796,
+          "checksum": "sha256:de98430bd81f1860b7ad63c8a6bd51d333e373f1dc951fc222e50082b6a75e56",
+          "checksum_source": "publisher pinned Hugging Face LFS object SHA-256",
+          "note": "Only generated audio in part_10 is the relevant v7 source; other parts or real-song downloads do not reconstruct the project selection."
+        }
+      ]
+    },
+    {
+      "id": "guitarset",
+      "stage": "v7_report_only",
+      "source_page": "https://zenodo.org/records/3371780",
+      "revision": "1.1.0",
+      "license_summary": "CC-BY-4.0",
+      "files": [
+        {
+          "path": "data/raw/guitarset/annotation.zip",
+          "url": "https://zenodo.org/api/records/3371780/files/annotation.zip/content",
+          "bytes": 39132574,
+          "checksum": "md5:b39b78e63d3446f2e54ddb7a54df9b10",
+          "checksum_source": "publisher Zenodo record API"
+        },
+        {
+          "path": "data/raw/guitarset/audio_mono-mic.zip",
+          "url": "https://zenodo.org/api/records/3371780/files/audio_mono-mic.zip/content",
+          "bytes": 656927981,
+          "checksum": "md5:275966d6610ac34999b58426beb119c3",
+          "checksum_source": "publisher Zenodo record API"
+        }
+      ]
+    },
+    {
+      "id": "mldf_it",
+      "stage": "early_voice_experiment",
+      "source_page": "https://zenodo.org/records/17098081",
+      "revision": "1.0; Zenodo record 17098081",
+      "license_summary": "CC-BY-4.0",
+      "files": [
+        {
+          "path": "data/raw/mldf/dataset_IT.7z",
+          "url": "https://zenodo.org/api/records/17098081/files/dataset_IT.7z/content",
+          "bytes": 1485098719,
+          "checksum": "md5:c3ce93f9566605e0a5ad2e3cda099d7d",
+          "checksum_source": "publisher Zenodo record API"
+        },
+        {
+          "path": "data/raw/mldf/metadata.zip",
+          "url": "https://zenodo.org/api/records/17098081/files/metadata.zip/content",
+          "bytes": 2129057,
+          "checksum": "md5:25cc69e8d9234a22c1f38222e0bfdebf",
+          "checksum_source": "publisher Zenodo record API"
+        }
+      ]
+    },
+    {
+      "id": "odss",
+      "stage": "early_voice_external_evaluation",
+      "source_page": "https://zenodo.org/records/8370669",
+      "revision": "Zenodo record 8370669",
+      "license_summary": "CC-BY-SA-4.0 as stated in the publisher record description; the API license field is empty.",
+      "files": [
+        {
+          "path": "data/raw/odss/odss.zip",
+          "url": "https://zenodo.org/api/records/8370669/files/odss.zip/content",
+          "bytes": 2403767464,
+          "checksum": "md5:9fd343968a12d6599a313b243a176ac6",
+          "checksum_source": "publisher Zenodo record API"
+        }
+      ]
+    },
+    {
+      "id": "aime",
+      "stage": "v12_followup",
+      "source_page": "https://huggingface.co/datasets/disco-eth/AIME",
+      "revision": "b84d4be5eda830b6eb714998569dba73530f2601",
+      "tree_url": "https://huggingface.co/api/datasets/disco-eth/AIME/tree/b84d4be5eda830b6eb714998569dba73530f2601/data",
+      "shard_count": 210,
+      "all_shards_bytes": 62281475287,
+      "license_summary": "6000 generated audio tracks CC-BY-4.0; 500 MTG-Jamendo tracks per-track licenses; description tags CC-BY-NC-SA-4.0. The project selected generated audio only and excluded descriptions.",
+      "files": [],
+      "note": "The v12 selection used 100 rows per generator, 1200 in total. Exact row/shard selection and extracted-audio manifests are not published here."
+    },
+    {
+      "id": "acestep_v1",
+      "stage": "v12_followup_generator",
+      "source_page": "https://github.com/ace-step/ACE-Step",
+      "code_revision": "1bee4c9f5b43e30995f8d4d33b3919197ce1bd68",
+      "model_source_page": "https://huggingface.co/ACE-Step/ACE-Step-v1-3.5B",
+      "model_revision": "82cd0d7b6322bd28cd4e830fe675ddb6180ce36c",
+      "model_bytes": 8275795939,
+      "license_summary": "Pinned code LICENSE and model card declare Apache-2.0; generated-audio reuse still needs its own provenance and applicable terms.",
+      "files": [],
+      "note": "This is a generation model, not a downloadable copy of the project's 256 generated training recordings. Generation scripts, prompts, seeds and output manifests are needed to recreate that dataset."
+    }
+  ]
+}

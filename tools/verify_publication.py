@@ -35,10 +35,16 @@ def verify():
     assert Decimal(best["total"]) - Decimal(first["total"]) == Decimal("0.1414142857")
 
     inventory = json.loads((ROOT / "results/model_inventory.json").read_text())
-    assert inventory["weights_published"] is False
+    assert inventory["weights_published"] is True
     weights = inventory["weights"]
     assert len(weights) == len({row["id"] for row in weights}) == 6
     assert sum(row["project_training"] for row in weights) == 3
+    released = [row for row in weights if row.get("release")]
+    assert [row["id"] for row in released] == inventory["published_weight_ids"] == ["panns"]
+    assert released[0]["release"]["license"] == "CC-BY-4.0"
+    assert (ROOT / released[0]["release"]["notice"]).is_file()
+    assert all(row["publication_decision"] == "held_pending_rights_clarification" for row in weights if not row.get("release"))
+    assert (ROOT / "results/WEIGHTS_SHA256SUMS.txt").read_text().strip() == released[0]["sha256"] + "  " + released[0]["release"]["filename"]
     assert inventory["archive_sha256"] == "16386efd80993ecafb535db3ae53dbbc79d97a2fc01433f2fa833e7456370fb9"
     assert sum(Decimal(str(row.get("music_blend_weight", 0))) for row in weights) == 1
     for row in weights:
@@ -71,7 +77,7 @@ def verify():
         if path.suffix in {".md", ".json", ".csv", ".svg", ".yml", ".txt", ".py"} and path != Path(__file__).resolve():
             assert not private.search(path.read_text()), relative
         count += 1
-    print(f"Publication PASS: {count} files; 11 scores + 1 error; 6 weight metadata entries; JSON/CSV/formula/links/SVG/boundaries")
+    print(f"Publication PASS: {count} files; 11 scores + 1 error; 6 weights, 1 release pointer; JSON/CSV/formula/links/SVG/boundaries")
 
 
 if __name__ == "__main__":
