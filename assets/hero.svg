@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+<title id="title">DeepVoice DACON Research</title>
+<desc id="desc">Audio authenticity research archive. Best recorded score v7, 0.7917453968. Delta versus v1: plus 0.1414142857. No final rank claim.</desc>
+<defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#0b1225"/><stop offset="1" stop-color="#172c42"/></linearGradient><linearGradient id="wave" x2="1"><stop stop-color="#5eead4"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs>
+<rect width="1200" height="360" rx="24" fill="url(#bg)"/>
+<g stroke="#6ea6c9" stroke-opacity=".09"><path d="M0 90H1200M0 180H1200M0 270H1200M200 0V360M400 0V360M600 0V360M800 0V360M1000 0V360"/></g>
+<text x="54" y="59" fill="#5eead4" font-family="Arial,sans-serif" font-size="16" letter-spacing="3">DACON · AUDIO AUTHENTICITY RESEARCH</text>
+<text x="50" y="135" fill="#f8fafc" font-family="Arial,sans-serif" font-size="67" font-weight="700">DeepVoice</text>
+<text x="54" y="170" fill="#b7c8dc" font-family="Arial,sans-serif" font-size="20">Voice + music detection · Evidence-led model iteration</text>
+<rect x="54" y="212" width="400" height="105" rx="14" fill="#ffffff" fill-opacity=".06" stroke="#ffffff" stroke-opacity=".12"/>
+<text x="76" y="242" fill="#a9bdd1" font-family="Arial,sans-serif" font-size="14" letter-spacing="1.3">BEST RECORDED SCORE · V7</text>
+<text x="76" y="285" fill="#5eead4" font-family="Arial,sans-serif" font-size="34" font-weight="700">0.7917453968</text>
+<rect x="474" y="212" width="278" height="105" rx="14" fill="#ffffff" fill-opacity=".06" stroke="#ffffff" stroke-opacity=".12"/>
+<text x="496" y="242" fill="#a9bdd1" font-family="Arial,sans-serif" font-size="14" letter-spacing="1.3">SCORE GAIN · V1 TO V7</text>
+<text x="496" y="285" fill="#f8fafc" font-family="Arial,sans-serif" font-size="30" font-weight="700">+0.141414</text>
+<g fill="none" stroke="url(#wave)" stroke-linecap="round" stroke-width="6" opacity=".9"><path d="M810 127V184M832 104V206M854 139V172M876 76V235M898 111V200M920 56V255M942 91V220M964 116V195M986 137V174M1008 80V231M1030 109V202M1052 128V183M1074 96V215M1096 137V174M1118 117V194M1140 144V167"/></g>
+<text x="805" y="295" fill="#a9bdd1" font-family="Arial,sans-serif" font-size="14">5 output probabilities · Not an accuracy %</text>
+</svg>

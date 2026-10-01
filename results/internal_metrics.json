@@ -1,0 +1,222 @@
+{
+  "schema": "deepvoice-public-internal-metrics-v1",
+  "prepared_on": "2026-10-01",
+  "metric_scope": "project_internal_and_public_corpus_experiments",
+  "official_dacon_results": false,
+  "units": {
+    "eer": "fraction; multiply by 100 for percent",
+    "roc_auc": "fraction",
+    "delta_eer": "candidate minus baseline; negative is better"
+  },
+  "general_limitations": [
+    "Different panels cannot be combined into a single progression curve.",
+    "EER is a ranking-derived empirical error measure, not accuracy at a fixed operating threshold.",
+    "Repeated inference and multiple transformed views do not increase independent source count.",
+    "These records do not establish competition-rule compliance or redistribution rights."
+  ],
+  "experiments": [
+    {
+      "id": "fixed_voice_ensemble_odss",
+      "date": "2026-08-31",
+      "status": "evaluation_completed",
+      "decision": "selected_historical_voice_path",
+      "target": "voice_authenticity",
+      "panel": {
+        "name": "ODSS external subset",
+        "rows": 1000,
+        "real": 500,
+        "fake": 500,
+        "bootstrap_source_groups": 961,
+        "selection_locked_before_evaluation": true
+      },
+      "baseline": {"name": "DF-Arena raw single segment", "eer": 0.056, "roc_auc": 0.987914, "bce": 0.20576688239869761},
+      "candidate": {"name": "AASIST clean 0.25 + DF-Arena 0.50 + ResNet clean 0.25", "eer": 0.046, "roc_auc": 0.991128, "bce": 0.35279179171094416},
+      "historical_small_cnn_reference": {"eer": 0.286},
+      "uncertainty": {
+        "method": "posthoc paired source-group percentile bootstrap",
+        "replicates": 500,
+        "delta_eer": -0.01,
+        "delta_eer_95_interval": [-0.0231, -0.0040]
+      },
+      "limitations": [
+        "Not a reproduction of the complete official five-output baseline.",
+        "The interval does not include model-selection uncertainty or multiple-comparison adjustment.",
+        "Korean, unseen generators, real telephone recordings, and music mixtures were not established by this evaluation.",
+        "EER improved while BCE worsened."
+      ],
+      "evidence_ids": [
+        "docs/FINAL_RESULTS.md",
+        "reports/remote/final_voice/external/selected_recovered/metrics.json",
+        "reports/remote/final_voice/external/dfarena_zero/metrics.json",
+        "reports/final_metrics_audit.json"
+      ]
+    },
+    {
+      "id": "v5_file_music_fusion",
+      "status": "evaluation_and_release_gate_completed",
+      "decision": "adopted",
+      "target": "file_authenticity",
+      "panel": {
+        "name": "fixed locked music terminal subset",
+        "rows": 200,
+        "real": 100,
+        "fake": 100,
+        "unique_pcm": 199,
+        "source_groups": 164,
+        "locked_parent_pilot_rows": 974,
+        "selection_locked_before_evaluation": true,
+        "evaluation_passes": 1
+      },
+      "baseline": {"eer": 0.51, "roc_auc": 0.4979},
+      "candidate": {"eer": 0.20, "roc_auc": 0.8506},
+      "uncertainty": {
+        "method": "paired source-group bootstrap stratified by family and label",
+        "replicates": 1000,
+        "delta_eer": -0.31,
+        "delta_eer_95_interval": [-0.3977314593301436, -0.2157099514563107]
+      },
+      "limitations": [
+        "A fixed 200-file subset, not the entire 974-row locked pilot.",
+        "The FMA real label has metadata-based limitations.",
+        "All overlap with pretraining corpora was not excluded.",
+        "Source-specific comparisons share the generated tracks."
+      ],
+      "evidence_ids": [
+        "docs/IMPROVED_V5_FILE_RESULTS.md",
+        "reports/remote/terminal_music_v6/summary.json",
+        "reports/improved_v5_file_release_gate.json"
+      ]
+    },
+    {
+      "id": "forensics_raw_full_windows",
+      "date": "2026-09-06",
+      "status": "exploratory_voice_evaluation_completed",
+      "decision": "subsequently_used_in_v6_v7",
+      "target": "voice_authenticity",
+      "panel": {
+        "rows": 96,
+        "real": 48,
+        "fake": 48,
+        "voice_real_fake_pairs": 16,
+        "background_conditions": 3,
+        "connected_groups": 4,
+        "independent_final_evaluation": false
+      },
+      "baseline": {"name": "v5 voice ensemble on separated input", "eer": 0.10416666666666667, "roc_auc": 0.9609375},
+      "candidate": {"name": "Forensics raw 5-second windows plus tail, maximum", "eer": 0.041666666666666664, "roc_auc": 0.9787326388888888, "false_positives_at_0_5": 2, "false_negatives_at_0_5": 1},
+      "additional_training_performed": false,
+      "limitations": [
+        "The 96 conditions are repeated data connected by four source groups.",
+        "The model and input path changed together.",
+        "The equal-volume piano background slice retained EER 0.125.",
+        "Not a sealed independent final evaluation."
+      ],
+      "evidence_ids": [
+        "docs/FORENSICS_VOICE_MODEL_2026-09-06.md",
+        "reports/remote/forensics_voice_probe_v1/forensics_voice_probe_v1/run_v1/receipt.json:score_table.overall"
+      ]
+    },
+    {
+      "id": "cnn_and_frozen_mert_same_small_data",
+      "date": "2026-09-07",
+      "status": "nine_training_runs_completed",
+      "decision": "all_three_candidates_rejected",
+      "target": "weak_source_authenticity_proxy",
+      "panel": {"train_parents": 1024, "train_views": 3072, "dev_parents": 256, "dev_views": 768, "dev_groups": 222, "reused_development": true, "crop_component_labels": null},
+      "baseline": {"name": "frozen v7 raw music CNN", "eer": 0.15104166666666663, "roc_auc": 0.9267612033420138},
+      "training": {"configurations": 3, "seeds_per_configuration": 3, "training_runs": 9},
+      "candidates": [
+        {"name": "CNN same small data", "median_eer": 0.30989583333333337, "seed_eer_range": [0.296875, 0.32682291666666663], "promoted": false},
+        {"name": "frozen MERT linear head", "median_eer": 0.26302083333333337, "seed_eer_range": [0.25520833333333337, 0.265625], "promoted": false},
+        {"name": "frozen MERT layer weights and MLP", "median_eer": 0.2578125, "seed_eer_range": [0.25, 0.26822916666666663], "promoted": false}
+      ],
+      "candidate_auc_median": null,
+      "limitations": [
+        "Weak source-authenticity targets are not confirmed crop-level MUSIC labels.",
+        "The development panel was already used in model development.",
+        "The existing v7 raw CNN was trained on a larger source set.",
+        "Architecture, pretraining, optimizer, and training amount were not controlled equally."
+      ],
+      "evidence_ids": ["docs/MUSIC_REPR_COMPARISON_V2_2026-09-07.md", "reports/music_repr_comparison_v2_r1/comparison.json"]
+    },
+    {
+      "id": "mert_tail_two_layer_finetuning",
+      "date": "2026-09-07",
+      "status": "three_training_runs_and_parameter_audit_completed",
+      "decision": "rejected",
+      "target": "weak_source_authenticity_proxy",
+      "panel": {"train_parents": 1024, "train_views": 3072, "dev_parents": 256, "dev_views": 768, "dev_groups": 222, "reused_development": true, "crop_component_labels": null},
+      "training": {"seeds": 3, "epochs_per_seed": 8, "trainable_parameters": 14375681, "encoder_scope": "last two transformer layers plus classification head", "parameter_updates_verified": true},
+      "baseline": {"eer": 0.15104166666666663, "roc_auc": 0.9267612033420138},
+      "candidate": {"median_eer": 0.2890625, "seed_eers": [0.28645833333333337, 0.2890625, 0.29166666666666663], "auc_median": null, "promoted": false},
+      "uncertainty": {
+        "method": "paired connected-source-group percentile bootstrap",
+        "replicates": 1000,
+        "estimand": "median of three seed EERs minus frozen raw EER, not ensemble EER",
+        "delta_eer": 0.13802083333333337,
+        "delta_eer_95_interval": [0.08852906655297145, 0.1887964636061019]
+      },
+      "limitations": [
+        "The interval conditions on three fixed runs and a reused development panel.",
+        "Weak source-authenticity targets and unequal baseline training-data scale remain.",
+        "This does not establish that the MERT architecture is inferior in general."
+      ],
+      "evidence_ids": ["docs/MUSIC_MERT_TAIL_V3_RESULTS_2026-09-07.md", "reports/music_mert_tail_v3_r1/comparison.json", "reports/music_mert_tail_v3_r1/parameter_update_audit.json"]
+    },
+    {
+      "id": "v7_top2_pooling",
+      "date": "2026-09-13",
+      "status": "inference_and_analysis_completed_pipeline_failed",
+      "decision": "rejected",
+      "target": "weak_whole_file_source_authenticity_proxy",
+      "panel": {"rows": 192, "real": 96, "fake": 96, "real_parents": 24, "real_performer_groups": 6, "fake_generators": 12, "fake_rows_per_generator": 8, "sealed_confirmation": false, "partial_forgery_tested": false},
+      "inference": {"baseline_repeats": 2, "candidate_repeats": 2, "total_runs": 4, "repeat_outputs_equal": true},
+      "metrics": {
+        "MUSIC": {
+          "baseline": {"eer": 0.3854166666666667, "roc_auc": 0.6984592013888888, "false_positives_at_0_5": 26},
+          "candidate": {"eer": 0.40625, "roc_auc": 0.6898871527777778, "false_positives_at_0_5": 44},
+          "delta_eer": 0.020833333333333315
+        },
+        "FILE": {
+          "baseline": {"eer": 0.40625, "roc_auc": 0.6595052083333334, "false_positives_at_0_5": 20},
+          "candidate": {"eer": 0.4375, "roc_auc": 0.6354166666666666, "false_positives_at_0_5": 38},
+          "delta_eer": 0.03125
+        }
+      },
+      "selection_passed": false,
+      "pipeline_failure": "The runner rejected analyzer output because its strict input contract omitted two manifest hash fields; stored results were independently revalidated.",
+      "limitations": [
+        "Reused derived GuitarSet views and publisher-declared AIME whole-file source-authenticity proxy.",
+        "Four inference runs do not provide four independent evaluation samples.",
+        "No sealed confirmation, near-audio independence certification, or partial-forgery test.",
+        "No new ZIP or upload was produced."
+      ],
+      "evidence_ids": ["reports/v7_top2_selection_20260913_r4_gpu1/POSTMORTEM.md", "reports/v7_top2_selection_20260913_r4_gpu1/remote_snapshot/analysis/analysis.json"]
+    }
+  ],
+  "followups": [
+    {
+      "id": "v12_data_expansion",
+      "status": "training_and_integration_function_checks_completed",
+      "training": {"baseline_sources": 816, "expanded_sources": 2016, "aime_added_sources": 1200, "epochs_per_arm": 20},
+      "accuracy_metrics_measured": false,
+      "v7_improvement_verified": false,
+      "exact_v7_configuration": false,
+      "configuration_basis": "strict v10",
+      "engineering_only": {"ten_60_second_files_seconds": [7.98, 8.24], "peak_process_rss_gb_approx": 1.594, "official_L4_full_run_measured": false},
+      "new_submission_zip_verified": false,
+      "uploaded": false,
+      "evidence_ids": ["reports/v7_anchor_v12_20260910/INTEGRATION_RESULTS.md", "reports/v7_anchor_v12_20260910/PROGRESS.md"]
+    },
+    {
+      "id": "heartmula_qualification_and_overlay",
+      "status": "completion_unverified_in_reviewed_local_records",
+      "observed": "Qualification and panel/overlay plans and implementation records are present.",
+      "generation_completion_verified": false,
+      "panel_metrics_verified": false,
+      "experimental_zip_completion_verified": false,
+      "evidence_ids": ["docs/superpowers/plans/2026-09-13-v7-heartmula-qualification-probe.md", "docs/superpowers/plans/2026-09-13-v7-heartmula-panel-overlay-zip.md", ".superpowers/sdd/2026-09-13-v7-heartmula-qualification-probe/progress.md"]
+    }
+  ],
+  "evidence_note": "Evidence identifiers refer to original research records; the public repository need not contain every underlying record. Private host, account, and storage paths have been omitted."
+}
