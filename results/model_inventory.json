@@ -29,8 +29,8 @@
       "source": "https://zenodo.org/records/3987831",
       "publication_decision": "released_with_attribution",
       "release": {
-        "filename": "Cnn14_mAP=0.431.pth",
-        "url": "https://github.com/jamessung644/deepvoice-dacon-2026/releases/download/v7-panns-weights-20261001/Cnn14_mAP%3D0.431.pth",
+        "filename": "Cnn14_mAP_0.431.pth",
+        "url": "https://github.com/jamessung644/deepvoice-dacon-2026/releases/download/v7-panns-weights-20261001/Cnn14_mAP_0.431.pth",
         "license": "CC-BY-4.0",
         "notice": "licenses/PANNs_NOTICE.md"
       }

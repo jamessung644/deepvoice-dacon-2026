@@ -1,6 +1,8 @@
 # PANNs Cnn14 checkpoint · attribution and redistribution notice
 
-File: `Cnn14_mAP=0.431.pth` (327,428,481 bytes).
+Release file: `Cnn14_mAP_0.431.pth` (327,428,481 bytes).
+Original publisher filename: `Cnn14_mAP=0.431.pth`.
+The release filename uses an underscore because GitHub normalizes `=` in asset names; checkpoint bytes are unchanged.
 
 PANNs: Large-Scale Pretrained Audio Neural Networks for Audio Pattern Recognition (Pretrained Models), v3.
 Creators: Qiuqiang Kong, Yin Cao, Turab Iqbal, Yuxuan Wang, Wenwu Wang, and Mark Plumbley.
