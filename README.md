@@ -6,6 +6,9 @@
   <a href="https://www.dacon.io/competitions/official/236749/overview/description">DACON 대회</a> ·
   <a href="#dacon-제출-결과">제출 결과</a> ·
   <a href="#v7-모델-구조">모델 구조</a> ·
+  <a href="#가중치-정보">가중치</a> ·
+  <a href="#학습-데이터셋">데이터셋</a> ·
+  <a href="#학습-컴퓨터-사양">학습 환경</a> ·
   <a href="#내부-실험--채택과-기각">내부 실험</a> ·
   <a href="#공개-코드와-테스트">코드 &amp; 테스트</a>
 </p>
@@ -94,6 +97,66 @@ FILE_FAKE  = max(VOICE_PRESENT × VOICE_FAKE,
 음성 진위는 **보컬 분리본이 아닌 원음**의 5초 창을 평가합니다. 음악은 약 4.04초 창을 최대 8개 평가하고 평균합니다. **8개 시간창은 독립 실험을 8회 반복한 것이 아닙니다.** 위 그림은 데이터 흐름이며 모델을 모두 동시에 실행한다는 뜻도 아닙니다.
 
 v7 전환 자체는 새 학습이 아니라 **v6의 음악 결합 비율 변경**입니다. 보관 ZIP의 실행 코드와 가중치 구성을 대조한 [상세 구조·보관본 식별 정보](docs/V7_ARCHITECTURE.md)를 제공합니다.
+
+## 가중치 정보
+
+v7은 **외부 사전학습 모델 3개 + 직접 학습한 음악 CNN 3개**를 사용합니다. 외부 음성 모델을 우리가 처음부터 학습한 모델로 소개하지 않습니다.
+
+| 모델 / 가중치 | 역할 | 학습 구분 | 파라미터 | 파일 크기¹ |
+|:---|:---|:---|---:|---:|
+| Forensics `checkpoint_epoch_5.safetensors` | 원음 음성 진위 | 외부 사전학습 · 추가 학습 없음 | 약 317.3M² | 1,269.93 MB |
+| PANNs `Cnn14_mAP=0.431.pth` | 음성·음악 존재 | 외부 사전학습 | — | 327.43 MB |
+| HTDemucs `955717e8-8726e21a.th` | 비보컬 음악 분리 | 외부 사전학습 | — | 84.14 MB |
+| 분리음 CNN `logspec_sqrt_v2.pt` | 분리 음악 진위 · 50% | 직접 학습 · seed 4102026 · epoch 20 선택 | 1,241,825 | 5.00 MB |
+| 원음 CNN `sqrt.pt` | 원음 음악 진위 · 30% | 직접 학습 · seed 5092026 · epoch 18 선택 | 1,241,825 | 5.00 MB |
+| 원음 CNN `equal.pt` | 원음 음악 진위 · 20% | 직접 학습 · seed 5092026 · epoch 16 선택 | 1,241,825 | 5.00 MB |
+
+¹ 보관 파일의 크기이며 1 MB = 1,000,000 bytes입니다. 모델의 GPU 메모리 사용량과는 다릅니다. ² Forensics 실행 경로는 317,257,863개 파라미터이며 저장된 미사용 projection 등은 제외합니다.
+
+실제 보관 ZIP의 활성 가중치 6개를 재해시해 패키지 기록과 대조했습니다. [원 배포처·revision·파일별 SHA-256](docs/WEIGHTS.md) · [기계 판독용 목록](results/model_inventory.json). **가중치 파일 자체는 배포하지 않습니다.** 직접 학습 가중치도 학습원천의 이용 조건과 별개로 무제한 재배포를 주장하지 않습니다.
+
+## 학습 데이터셋
+
+### v7 원음 음악 CNN · sqrt / equal 공통 학습풀
+
+| 데이터셋 | 출처 성격 | 학습 대상 원천 | 개발 원천 | 개발 역할 |
+|:---|:---|---:|---:|:---|
+| [FMA](https://github.com/mdeff/fma) | 실제 음악 · 메타데이터 기반 진위 표적 | 2,641 | 442 | 선택 |
+| [MAESTRO](https://magenta.tensorflow.org/datasets/maestro) | 실제 피아노 연주 | 120 | 20 | 선택 |
+| [FakeMusicCaps](https://zenodo.org/records/15063698) | 생성 음악 | 1,800 | 800 | 선택 |
+| [Echoes](https://huggingface.co/datasets/Octavian97/Echoes) | 여러 생성기의 음악 | 2,672 | 727 | 선택 |
+| [SONICS](https://huggingface.co/datasets/awsaf49/sonics) | 생성 노래 · 가짜 자료만 사용 | 2,654 | 462 | 개발 평가; 선택 지표에서는 제외 |
+| [GuitarSet](https://zenodo.org/records/3371780) | 실제 기타 연주 | **0** | 360 | 보고 전용 · 선택 제외 |
+| **합계** | | **9,887** | **2,811** | |
+
+각 원천에 **clean · 저비트레이트 코덱 · 잡음/잔향 · 부분 음악 · 리샘플링/EQ · G.711 전화 채널**, 6개 가공 뷰를 저장했습니다. 학습풀 **59,322 WAV**, 개발 **16,866 WAV**, 총 **76,188 WAV**이며, 증강 파일 수를 독립 음원 수로 세지 않습니다. 이는 학습 대상 풀의 크기이며 모든 뷰가 추출됐다는 뜻도 아닙니다.
+
+### v7 분리음 음악 CNN
+
+학습 원천은 **FMA 1,676 + MAESTRO 120 + FakeMusicCaps 1,800 = 3,596개**입니다. 원천별 13개 뷰로 **46,748개 학습 대상 WAV**를 준비했습니다. 개발 1,600원천/20,800뷰 중 GuitarSet 360원천/4,680뷰는 보고 전용입니다. 20 epochs의 163,840 draw에서 실제 사용한 고유 학습 뷰는 **39,657개**였습니다.
+
+직접 학습 CNN은 16 kHz 입력, 64,600 samples(4.0375초) 창, AdamW `lr=3e-4`, `weight_decay=1e-3`, batch 32, gradient accumulation 2, BF16을 사용했습니다. 원음 모델 두 개는 각각 20 epochs를 실행했고, 개발 지표로 epoch 18/16을 선택했습니다.
+
+음성 경로의 Forensics는 외부 완성 가중치입니다. **초기 ML-DF 음성 학습·ODSS 외부 평가·후속 AIME 확대 학습과 v7 학습 자료를 구분합니다.** 라벨 한계, 분할, 보관 수와 실제 사용 수, 원천별 이용 조건은 [데이터셋 상세](docs/DATASETS.md)에 정리했습니다.
+
+## 학습 컴퓨터 사양
+
+아래는 **실제 학습 당시 보관 기록**입니다. 현재 서버 상태나 DACON 채점 서버 사양을 의미하지 않습니다.
+
+| 항목 | 확인한 사양 |
+|:---|:---|
+| GPU 장착 | **NVIDIA RTX 2000 Ada Generation · 16 GB × 2장** |
+| 학습 방식 | 실험별 GPU 0 또는 1에서 **단일 GPU** 학습; 독립 실험을 두 GPU에서 병행한 사례 있음 |
+| 시스템 RAM | OS 인식 **14.87 GiB** · 15,968,407,552 bytes |
+| Swap | 0 bytes |
+| CPU 모델 / 코어 수 | 보관 기록에서 미확인 · 추정하지 않음 |
+| 운영체제 | Linux x86_64 · kernel 6.8.0-134-generic · glibc 2.39 |
+| Python | 3.11.15 |
+| 초기 학습 환경 | PyTorch 2.13.0+cu130 · CUDA runtime 13.0 |
+| 별도 후속 호환 환경 | PyTorch / Torchaudio 2.7.1+cu128 · CUDA runtime 12.8 |
+| NVIDIA driver | 후속 환경 기록에서 595.71.05 확인 |
+
+**GPU 두 장의 VRAM을 합쳐 32 GB 단일 GPU로 사용한 것이 아니며, 2-GPU 분산학습으로 기록하지 않습니다.** GPU·RAM 관측 날짜, 환경 구분과 실험별 사용 근거는 [학습 환경 상세](docs/TRAINING_ENVIRONMENT.md)에 남겼습니다. 계정·서버 주소·접속 정보·GPU UUID는 공개하지 않습니다.
 
 ## 내부 실험 · 채택과 기각
 

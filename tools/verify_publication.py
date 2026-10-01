@@ -34,6 +34,18 @@ def verify():
     first = next(row for row in scored if row["version"] == "v1")
     assert Decimal(best["total"]) - Decimal(first["total"]) == Decimal("0.1414142857")
 
+    inventory = json.loads((ROOT / "results/model_inventory.json").read_text())
+    assert inventory["weights_published"] is False
+    weights = inventory["weights"]
+    assert len(weights) == len({row["id"] for row in weights}) == 6
+    assert sum(row["project_training"] for row in weights) == 3
+    assert inventory["archive_sha256"] == "16386efd80993ecafb535db3ae53dbbc79d97a2fc01433f2fa833e7456370fb9"
+    assert sum(Decimal(str(row.get("music_blend_weight", 0))) for row in weights) == 1
+    for row in weights:
+        assert re.fullmatch(r"[0-9a-f]{64}", row["sha256"]), row["id"]
+        assert isinstance(row["bytes"], int) and row["bytes"] > 0
+        assert row["archive_member"].startswith("model/")
+
     for markdown in ROOT.rglob("*.md"):
         for target in re.findall(r"\]\(([^)]+)\)", markdown.read_text()):
             if target.startswith(("https://", "http://", "#")):
@@ -59,7 +71,7 @@ def verify():
         if path.suffix in {".md", ".json", ".csv", ".svg", ".yml", ".txt", ".py"} and path != Path(__file__).resolve():
             assert not private.search(path.read_text()), relative
         count += 1
-    print(f"Publication PASS: {count} files; 11 scores + 1 error; JSON/CSV/formula/links/SVG/boundaries")
+    print(f"Publication PASS: {count} files; 11 scores + 1 error; 6 weight metadata entries; JSON/CSV/formula/links/SVG/boundaries")
 
 
 if __name__ == "__main__":

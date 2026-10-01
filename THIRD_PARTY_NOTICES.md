@@ -2,6 +2,8 @@
 
 이 저장소는 결과 설명과 선별한 연구 코드의 공개 기록이다. 원본 학습 오디오·가공 오디오·모델 가중치·제출 ZIP·제3자 모델 구현을 배포하지 않는다. 아래 링크는 원 배포처를 안내하며 재배포 허가를 대신하지 않는다.
 
+가중치의 출처·revision·식별 해시는 [WEIGHTS](docs/WEIGHTS.md), 실제 데이터 풀·분할·원천별 이용 조건은 [DATASETS](docs/DATASETS.md), 학습 컴퓨터와 환경은 [TRAINING_ENVIRONMENT](docs/TRAINING_ENVIRONMENT.md)에 추가했다. 정보 공개와 파일 본체 재배포를 구분한다.
+
 | 사용 또는 비교한 구성 | 원 출처 | 이 저장소에 포함한 것 |
 |---|---|---|
 | PANNs Cnn14 | https://github.com/qiuqiangkong/audioset_tagging_cnn | 구조 설명만 |

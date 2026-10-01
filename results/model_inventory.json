@@ -1,0 +1,17 @@
+{
+  "schema": "deepvoice-v7-weight-inventory-v1",
+  "reviewed_on": "2026-10-01",
+  "weights_published": false,
+  "archive_sha256": "16386efd80993ecafb535db3ae53dbbc79d97a2fc01433f2fa833e7456370fb9",
+  "archive_bytes": 1697006241,
+  "verification": "Six active weight files were rehashed from the preserved ZIP and matched its internal manifest and original package record.",
+  "weights": [
+    {"id":"forensics", "archive_member":"model/forensics/checkpoint_epoch_5.safetensors", "bytes":1269932956, "sha256":"803d2c57e705395d007b9deaf5b1a110965950f207df223e6dff5b6d298490fb", "origin":"external_pretrained", "project_training":false, "active_forward_parameters":317257863, "source":"https://huggingface.co/eliya/forensics_0.3B_base_deepfake_classifier", "revision":"49608c4162c2321217cd89b3847df3bf4caa304c"},
+    {"id":"panns", "archive_member":"model/panns/Cnn14_mAP=0.431.pth", "bytes":327428481, "sha256":"0dc499e40e9761ef5ea061ffc77697697f277f6a960894903df3ada000e34b31", "origin":"external_pretrained", "project_training":false, "source":"https://zenodo.org/records/3987831"},
+    {"id":"htdemucs", "archive_member":"model/htdemucs/955717e8-8726e21a.th", "bytes":84141911, "sha256":"8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4", "origin":"external_pretrained", "project_training":false, "source":"https://github.com/facebookresearch/demucs", "runtime_version":"4.0.1"},
+    {"id":"music_stem", "archive_member":"model/music_fake/logspec_sqrt_v2.pt", "bytes":4996898, "sha256":"c59d1ad550f26f338d6f461f8cc91c319854138bd76527a6c8bcc5a3ee317881", "origin":"project_trained_from_scratch", "project_training":true, "parameters":1241825, "seed":4102026, "best_epoch":20, "music_blend_weight":0.5},
+    {"id":"music_raw_sqrt", "archive_member":"model/music_fake_provider/sqrt.pt", "bytes":5000189, "sha256":"086cdc5b438a0b3bec2eef87b0b11dc3515a46be67952f1507919ab1708db04f", "origin":"project_trained_from_scratch", "project_training":true, "parameters":1241825, "seed":5092026, "best_epoch":18, "music_blend_weight":0.3},
+    {"id":"music_raw_equal", "archive_member":"model/music_fake_provider/equal.pt", "bytes":5000189, "sha256":"7bb0425be9c549af00edf1610c24fa6548ce1c919a4d6d42dee94f3bfb32391a", "origin":"project_trained_from_scratch", "project_training":true, "parameters":1241825, "seed":5092026, "best_epoch":16, "music_blend_weight":0.2}
+  ],
+  "limitations": ["This is identification metadata, not a grant to redistribute weights.", "v7 changed the blend without new training; its three custom CNNs were trained earlier.", "External pretraining file inventories and all overlap were not independently audited."]
+}
